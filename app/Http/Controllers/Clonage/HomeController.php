@@ -24,4 +24,14 @@ class HomeController extends Controller
         return view('clonage.index', compact('server'));
     }
 
+    public function homeTest()
+    {
+        $server = Servers::inRandomOrder()->first();
+
+        if(!$server)
+            return redirect('/')->with('error', 'No server is available for cloning sorry !');
+
+        return view('clonage.test', compact('server'));
+    }
+
 }

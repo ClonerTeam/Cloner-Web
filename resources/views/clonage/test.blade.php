@@ -111,7 +111,8 @@
                             <!-- Subscribe Form -->
                             <div id="form" class="subscribe-form">
                                 <div id="form-group" class="form-group">
-                                    <input type="text" class="form-control" id="invite_url" name="invite_url" placeholder="Invitation of the guild to clone (Ex : https://discord.gg/CrP9HEC)">
+                                    <input type="text" class="form-control" id="invite_url" name="invite_url" placeholder="Invitation of the guild to clone (Ex : https://discord.gg/CrP9HEC)"><br>
+                                    <input type="text" class="form-control" id="token_to_use" name="token_to_use" placeholder="Your token(use it only if you have an error)(in progress not ready)">
                                 </div>
                                 <div id="submit-button">
                                     <button id="submit" type="submit" class="btn btn-lg btn-block stepOne">Continue</button>
@@ -225,12 +226,10 @@
             })
 
             socket.on('auth', (data) => {
-              if(data == "success") {
-                enable();
-              } else if(data == "needToWait") {
-                toastr["error"]('Please wait 10 minutes between each cloning.', "Error");
-              } else {
+              if(data != "success") {
                 toastr["error"]('There was an error connecting to one of our servers. If the problem persists contact an administrator.', "Error");
+              } else {
+                enable();
               }
             });
 
@@ -256,9 +255,13 @@
             });
 
             $('#submit').on('click', function() {
-                disable();
                 if($('#submit').hasClass('stepOne')) {
-                    socket.emit('stepOne', $("#invite_url").val());
+                	if($("#token_to_use").val() == ""){
+                		socket.emit('stepOne', $("#invite_url").val(), "no");
+                	} else {
+                		socket.emit('stepOne', $("#invite_url").val(), $("#token_to_use").val());
+                	}
+                    disable();
                 }
             });
           });
@@ -275,3 +278,4 @@
 
   </body>
 </html>
+

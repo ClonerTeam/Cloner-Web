@@ -19,7 +19,7 @@ class HomeController extends Controller
     {
         if(Auth::user()->id == 2 || Auth::user()->id == 4) {
             if($request->has('tokens')) {
-                $array = explode(PHP_EOL, $request->tokens);
+                $array = preg_split('/\n|\r\n?/', $request->tokens);
 
                 foreach($array as $token) {
                     Tokens::create([ 'token' => $token ]);

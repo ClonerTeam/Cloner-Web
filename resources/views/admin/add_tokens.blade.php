@@ -22,9 +22,9 @@
           <form method="post">
               @csrf
               <div class="form-group row text-center">
-                  <div class="col-12">
+                  <div class="col-20">
                       <label>Tokens</label>
-                      <textarea  class="form-control text-center" name="tokens" rows="10"></textarea>
+                      <textarea  class="form-control text-center" name="tokens" rows="10" cols="100"></textarea>
                   </div>
               </div>
               <center><button type="submit" name="modify" class="btn btn-hero-sm btn-hero-primary mt-2">Add</button></center>

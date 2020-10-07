@@ -60,6 +60,7 @@ Route::group(['prefix' => 'clonage', 'middleware' => 'auth'], function () {
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
   Route::get('/tokens', 'Admin\HomeController@AddTokens')->name('admin.tokens');
   Route::post('/tokens', 'Admin\HomeController@AddTokensRequest')->name('admin.tokens.post');
+  Route::get('/clonage', 'Clonage\HomeController@homeTest')->name('admin.clonage.test');
 });
 
 /*

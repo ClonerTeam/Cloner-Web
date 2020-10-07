@@ -8,17 +8,32 @@ use Dirape\Token\Token;
 use App\Servers;
 use App\User;
 use App\GuildData;
+use Illuminate\Support\Facades\DB;
 
 class StorageController extends Controller
 {
+
+    private function isJson($data) {
+        json_decode($data, true);
+        return (json_last_error() === JSON_ERROR_NONE);
+    }
+
+    private function removeDuplicates($guildid, $user)
+    {
+        GuildData::where([ 'userId' => $user->id, 'guildId' => $guildid ])->delete();
+    }
+
     public function addGuildData(Request $request)
     {
         $user = User::where([ 'token_key' => $request->token_key ])->firstOrFail();
 
+        $this->removeDuplicates($request->guildid, $user);
+
         $data = GuildData::create([
             'uuid' => (new Token())->Unique('guild_data', 'uuid', 10),
             'userId' => $user->id,
-            'data' => $request->data
+            'data' => $request->data,
+            'guildId' => $request->guildid
         ]);
 
         return json_encode(array( 'success' => true, 'dataId' => $data->id, 'dataUUID' => $data->uuid ));

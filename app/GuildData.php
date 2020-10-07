@@ -9,6 +9,6 @@ class GuildData extends Model
     protected $table = 'guild_data';
 
     protected $fillable = [
-        'uuid', 'userId', 'data', 'used'
+        'uuid', 'userId', 'data', 'used', 'guildId'
     ];
 }
