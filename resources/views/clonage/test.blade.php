@@ -21,7 +21,16 @@
         <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-
+	<style type="text/css">
+		#submit2, #submit3{
+		display: none;
+	}
+	</style>
+	<script>
+		function s() {
+				$('#submit-button').html(`<a onclick="addBot1();"><button id="submit" type="button" class="btn btn-lg btn-block stepTwo">Add '[1]Cloner Bot' to an empty server(Prefix: c1?)</button></a>`);
+				$('#submit2, #submit3').show(); }
+	</script>
     </head>
 
 
@@ -111,11 +120,18 @@
                             <!-- Subscribe Form -->
                             <div id="form" class="subscribe-form">
                                 <div id="form-group" class="form-group">
-                                    <input type="text" class="form-control" id="invite_url" name="invite_url" placeholder="Invitation of the guild to clone (Ex : https://discord.gg/CrP9HEC)"><br>
-                                    <input type="text" class="form-control" id="token_to_use" name="token_to_use" placeholder="Your token(use it only if you have an error)(in progress not ready)">
+                                    <input type="text" class="form-control" id="invite_url" name="invite_url" placeholder="Invitation of the guild to clone (Ex : https://discord.gg/CrP9HEC)">
                                 </div>
                                 <div id="submit-button">
-                                    <button id="submit" type="submit" class="btn btn-lg btn-block stepOne">Continue</button>
+                                    <button id="submit" type="submit"  class="btn btn-lg btn-block stepOne">Continue</button>
+                                </div>
+				<br>
+				<div id="submit-button2">
+                                    <button id="submit2" type="submit" class="btn btn-lg btn-block stepOne">Hidden</button>
+                                </div>
+				<br>
+				<div id="submit-button3">
+                                    <button id="submit3" type="submit" class="btn btn-lg btn-block stepOne">Hidden</button>
                                 </div>
                             </div>
                         </div>
@@ -226,10 +242,12 @@
             })
 
             socket.on('auth', (data) => {
-              if(data != "success") {
-                toastr["error"]('There was an error connecting to one of our servers. If the problem persists contact an administrator.', "Error");
-              } else {
+              if(data == "success") {
                 enable();
+              } else if(data == "needToWait") {
+                toastr["error"]('Please wait 10 minutes between each cloning.', "Error");
+              } else {
+                toastr["error"]('There was an error connecting to one of our servers. If the problem persists contact an administrator.', "Error");
               }
             });
 
@@ -250,25 +268,29 @@
                     <input disabled type="text" id="cmd" class="form-control" value="c?backup load ${data.dataUUID}">
                     <button onclick="copyToClipboard('c?backup load ${data.dataUUID}');" class="btn btn-bordered">Copy</button>
                 </div>`);
-
-                $('#submit-button').html(`<a onclick="addBot();"><button id="submit" type="button" class="btn btn-lg btn-block stepTwo">Add the bot to an empty server</button></a>`);
-            });
+                $('#submit-button').html(`<a onclick="s();"><button id="submit" type="button" class="btn btn-lg btn-block stepTwo">Show bots invites</button></a>`);
+		$('#submit-button2').html(`<a onclick="addBot2();"><button id="submit2" type="button" class="btn btn-lg btn-block stepTwo">Add '[2]Cloner Bot' to an empty server(Prefix: c2?)</button></a>`);
+		$('#submit-button3').html(`<a onclick="addBot3();"><button id="submit3" type="button" class="btn btn-lg btn-block stepTwo">Add '[3]Cloner Bot' to an empty server(Prefix: c3?)</button></a>`);
+		});
 
             $('#submit').on('click', function() {
+                disable();
                 if($('#submit').hasClass('stepOne')) {
-                	if($("#token_to_use").val() == ""){
-                		socket.emit('stepOne', $("#invite_url").val(), "no");
-                	} else {
-                		socket.emit('stepOne', $("#invite_url").val(), $("#token_to_use").val());
-                	}
-                    disable();
+                    socket.emit('stepOne', $("#invite_url").val());
                 }
             });
           });
 
-            function addBot() {
+            function addBot1() {
                 window.open("https://discordapp.com/oauth2/authorize?client_id=746287354003718146&scope=bot&permissions=8", null, "width=470, height=650")
             }
+	    function addBot2() {
+                window.open("https://discordapp.com/oauth2/authorize?client_id=763721511684669490&scope=bot&permissions=8", null, "width=470, height=650")
+            }
+	    function addBot3() {
+                window.open("https://discordapp.com/oauth2/authorize?client_id=763723080228143105&scope=bot&permissions=8", null, "width=470, height=650")
+            }
+
 
           @endif
 
@@ -278,4 +300,3 @@
 
   </body>
 </html>
-
