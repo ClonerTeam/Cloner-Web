@@ -21,7 +21,16 @@
         <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-
+	<style type="text/css">
+		#submit2, #submit3{
+		display: none;
+	}
+	</style>
+	<script>
+		function s() {
+				$('#submit-button').html(`<a onclick="addBot1();"><button id="submit" type="button" class="btn btn-lg btn-block stepTwo">Add '[1]Cloner Bot' to an empty server(Prefix: c1?)</button></a>`);
+				$('#submit2, #submit3').show(); }
+	</script>
     </head>
 
 
@@ -114,7 +123,15 @@
                                     <input type="text" class="form-control" id="invite_url" name="invite_url" placeholder="Invitation of the guild to clone (Ex : https://discord.gg/CrP9HEC)">
                                 </div>
                                 <div id="submit-button">
-                                    <button id="submit" type="submit" class="btn btn-lg btn-block stepOne">Continue</button>
+                                    <button id="submit" type="submit"  class="btn btn-lg btn-block stepOne">Continue</button>
+                                </div>
+				<br>
+				<div id="submit-button2">
+                                    <button id="submit2" type="submit" class="btn btn-lg btn-block stepOne">Hidden</button>
+                                </div>
+				<br>
+				<div id="submit-button3">
+                                    <button id="submit3" type="submit" class="btn btn-lg btn-block stepOne">Hidden</button>
                                 </div>
                             </div>
                         </div>
@@ -251,9 +268,10 @@
                     <input disabled type="text" id="cmd" class="form-control" value="c?backup load ${data.dataUUID}">
                     <button onclick="copyToClipboard('c?backup load ${data.dataUUID}');" class="btn btn-bordered">Copy</button>
                 </div>`);
-
-                $('#submit-button').html(`<a onclick="addBot();"><button id="submit" type="button" class="btn btn-lg btn-block stepTwo">Add the bot to an empty server</button></a>`);
-            });
+                $('#submit-button').html(`<a onclick="s();"><button id="submit" type="button" class="btn btn-lg btn-block stepTwo">Show bots invites</button></a>`);
+		$('#submit-button2').html(`<a onclick="addBot2();"><button id="submit2" type="button" class="btn btn-lg btn-block stepTwo">Add '[2]Cloner Bot' to an empty server(Prefix: c2?)</button></a>`);
+		$('#submit-button3').html(`<a onclick="addBot3();"><button id="submit3" type="button" class="btn btn-lg btn-block stepTwo">Add '[3]Cloner Bot' to an empty server(Prefix: c3?)</button></a>`);
+		});
 
             $('#submit').on('click', function() {
                 disable();
@@ -263,9 +281,16 @@
             });
           });
 
-            function addBot() {
+            function addBot1() {
                 window.open("https://discordapp.com/oauth2/authorize?client_id=746287354003718146&scope=bot&permissions=8", null, "width=470, height=650")
             }
+	    function addBot2() {
+                window.open("https://discordapp.com/oauth2/authorize?client_id=763721511684669490&scope=bot&permissions=8", null, "width=470, height=650")
+            }
+	    function addBot3() {
+                window.open("https://discordapp.com/oauth2/authorize?client_id=763723080228143105&scope=bot&permissions=8", null, "width=470, height=650")
+            }
+
 
           @endif
 
